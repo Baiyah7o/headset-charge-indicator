@@ -41,6 +41,7 @@ OPTION_CHATMIX = '-m'
 OPTION_SIDETONE = '-s'
 OPTION_LED = '-l'
 OPTION_INACTIVE_TIME = '-i'
+OPTION_EQUALIZER = '-p'
 
 global ind
 ind = None
@@ -169,6 +170,17 @@ def set_led(dummy, level):
 
     return True
 
+def set_equalizer(dummy, level):
+    if args.verbose:
+        print("Set Equalizer Preset to: " + str(level))
+    try:
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_EQUALIZER, str(level), OPTION_SILENT])
+        if args.verbose:
+            print("Result: " + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+
+    return True
 
 def switch_sound(dummy, level):
     if args.verbose:
@@ -280,6 +292,30 @@ def led_menu():
 
     return ledmenu
 
+def equalizer_menu():
+    equalizermenu = Gtk.Menu()
+
+    off = Gtk.MenuItem(label="Preset 0")
+    off.connect("activate", set_equalizer, 0)
+    equalizermenu.append(off)
+    off.show_all()
+
+    on = Gtk.MenuItem(label="Preset 1")
+    on.connect("activate", set_equalizer, 1)
+    equalizermenu.append(on)
+    on.show_all()
+
+    on = Gtk.MenuItem(label="Preset 2")
+    on.connect("activate", set_equalizer, 2)
+    equalizermenu.append(on)
+    on.show_all()
+
+    on = Gtk.MenuItem(label="Preset 3")
+    on.connect("activate", set_equalizer, 3)
+    equalizermenu.append(on)
+    on.show_all()
+
+    return equalizermenu
 
 def switch_menu():
     switchmenu = Gtk.Menu()
@@ -398,10 +434,15 @@ if __name__ == "__main__":
     menu_items.show_all()
     menu_items.set_submenu(sidetone_menu())
 
-    menu_items = Gtk.MenuItem(label="LED")
+    # menu_items = Gtk.MenuItem(label="LED")
+    # menu.append(menu_items)
+    # menu_items.show_all()
+    # menu_items.set_submenu(led_menu())
+
+    menu_items = Gtk.MenuItem(label="Equalizer Preset")
     menu.append(menu_items)
     menu_items.show_all()
-    menu_items.set_submenu(led_menu())
+    menu_items.set_submenu(equalizer_menu())
 
     menu_items = Gtk.MenuItem(label="Inactive time")
     menu.append(menu_items)
