@@ -60,26 +60,26 @@ def change_icon():
             check_output([SWITCHSOUND_BINARY, "-1"])
             if prevSwitch == 0:
                 # exit 0 means we could not find out, so set some other icon
-                ind.set_icon_full("audio-card", "Audio Card")
+                ind.set_icon_full("audio-card-symbolic", "Audio Card")
         else:
-            ind.set_icon_full("audio-headset", "Headset")
+            ind.set_icon_full("audio-headset-symbolic", "Headset")
         
     except CalledProcessError as e:
         print("Response: " + str(e.returncode) + ": " + str(e))
         if e.returncode == 1:
-            ind.set_icon_full("audio-speakers", "Audio Card")
+            ind.set_icon_full("audio-speakers-symbolic", "Audio Card")
             prevSwitch = 1
         elif e.returncode == 2:
-            ind.set_icon_full("audio-headset", "Headset")
+            ind.set_icon_full("audio-headset-symbolic", "Headset")
             prevSwitch = 2
         elif e.returncode == 3:
-            ind.set_icon_full("audio-headphones", "USB")
+            ind.set_icon_full("audio-headphones-symbolic", "USB")
             prevSwitch = 3
         elif e.returncode == 4:
-            ind.set_icon_full("audio-input-microphone", "Speakerphone")
+            ind.set_icon_full("audio-input-microphone-symbolic", "Speakerphone")
             prevSwitch = 4
         else:
-            ind.set_icon_full("monitor", "Monitor")
+            ind.set_icon_full("monitor-symbolic", "Monitor")
             prevSwitch = 5
 
 def fetch_capabilities():
